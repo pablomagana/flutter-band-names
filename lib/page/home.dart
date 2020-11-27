@@ -172,13 +172,15 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(20),
         height: 200,
         width: double.infinity,
-        child: PieChart(
-          dataMap: dataMap,
-          chartValuesOptions: ChartValuesOptions(
-              decimalPlaces: 0,
-              showChartValuesInPercentage: true,
-              chartValueBackgroundColor: Colors.transparent),
-          chartType: ChartType.ring,
-        ));
+        child: bands.length > 0
+            ? PieChart(
+                dataMap: dataMap,
+                chartValuesOptions: ChartValuesOptions(
+                    decimalPlaces: 0,
+                    showChartValuesInPercentage: true,
+                    chartValueBackgroundColor: Colors.transparent),
+                chartType: ChartType.ring,
+              )
+            : Container());
   }
 }

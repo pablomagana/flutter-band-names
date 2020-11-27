@@ -21,7 +21,7 @@ class SocketService with ChangeNotifier {
 
   void _initConfig() {
     print("trying connect");
-    _socket = IO.io('http://localhost:3000', <String, dynamic>{
+    _socket = IO.io('https://io-band-server.herokuapp.com/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
     });
