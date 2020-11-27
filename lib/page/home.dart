@@ -5,6 +5,7 @@ import 'package:band_names/services/socket_service.dart';
 import 'package:band_names/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,9 +57,19 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: bands.length,
-        itemBuilder: (context, i) => _bandTile(bands[i]),
+      body: Container(
+        child: Column(
+          children: [
+            _showChart(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: bands.length,
+                itemBuilder: (context, i) => _bandTile(bands[i]),
+              ),
+            ),
+            Text("conexion en tiempo real")
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -149,5 +160,25 @@ class _HomePageState extends State<HomePage> {
     }
 
     Navigator.pop(context);
+  }
+
+  Widget _showChart() {
+    Map<String, double> dataMap = Map();
+
+    bands.forEach((band) {
+      dataMap.putIfAbsent(band.name, () => band.votes.toDouble());
+    });
+    return Container(
+        padding: EdgeInsets.all(20),
+        height: 200,
+        width: double.infinity,
+        child: PieChart(
+          dataMap: dataMap,
+          chartValuesOptions: ChartValuesOptions(
+              decimalPlaces: 0,
+              showChartValuesInPercentage: true,
+              chartValueBackgroundColor: Colors.transparent),
+          chartType: ChartType.ring,
+        ));
   }
 }
